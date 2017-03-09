@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dip">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip"
+        android:id="@+id/thumbnail">
+
+        <ImageView
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:id="@+id/list_image"
+            />
+    </LinearLayout>
+    <!-- Movie Title-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/movie_title"
+        android:text="Star Wars"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:textColor="@android:color/black"
+        />
+    <!-- Movie Year -->
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/year"
+        android:layout_below="@+id/movie_title"
+        android:textSize="10dp"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="1977"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="1dip"
+        android:textStyle="bold"/>
+</RelativeLayout>

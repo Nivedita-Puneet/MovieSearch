@@ -2,4 +2,5 @@
     <string name="app_name">MovieSearch</string>
     <string name="search">Search</string>
     <string name="search_hint">Movie To Search</string>
+    <string name="error_message">Movie not found.</string>
 </resources>
