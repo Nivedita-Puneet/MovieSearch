@@ -9,20 +9,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
-import moviesearch.example.com.moviesearch.POJO.Movie;
+import moviesearch.example.com.moviesearch.data.Movie;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
@@ -42,20 +38,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
         setContentView(R.layout.activity_main);
-        if(savedInstanceState != null){
-            if(savedInstanceState.containsKey(MOVIE_TO_SEARCH)){
-               MainActivity.this.query = savedInstanceState.getString(MOVIE_TO_SEARCH);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(MOVIE_TO_SEARCH)) {
+                MainActivity.this.query = savedInstanceState.getString(MOVIE_TO_SEARCH);
             }
         }
         initializeControls();
 
     }
 
-    private void initializeControls(){
+    private void initializeControls() {
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_movie);
-        mLoadingIndicator = (ProgressBar)findViewById(R.id.pb_loading_indicator);
-        mErrorMessageDisplay = (TextView)findViewById(R.id.tv_error_message_display);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_movie);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -67,25 +63,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 intent.putExtra("imdbId", imdbId);
                 startActivity(intent);
             }
-        },MainActivity.this);
-    getSupportLoaderManager().initLoader(MOVIE_TASK_CODE,null, MainActivity.this);
-    mRecyclerView.setAdapter(movieAdapter);
+        }, MainActivity.this);
+        getSupportLoaderManager().initLoader(MOVIE_TASK_CODE, null, MainActivity.this);
+        mRecyclerView.setAdapter(movieAdapter);
     }
 
-    private void showMoviesData(){
+    private void showMoviesData() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
     }
 
-    private void showErrorMessage(){
+    private void showErrorMessage() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         getSearchViewFromMenu(menu);
         return true;
     }
@@ -93,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void getSearchViewFromMenu(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        if(!TextUtils.isEmpty(MainActivity.this.query)){
+        if (!TextUtils.isEmpty(MainActivity.this.query)) {
             searchView.setQuery(MainActivity.this.query, false);
             searchView.clearFocus();
         }
@@ -101,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-    private void handleSearchQuery(SearchView searchView){
+    private void handleSearchQuery(SearchView searchView) {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -122,16 +118,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-        return new MovieLoader(MainActivity.this,MainActivity.this.query);
+        return new MovieLoader(MainActivity.this, MainActivity.this.query);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
-        if(data != null){
+        if (data != null) {
             showMoviesData();
             movieAdapter.setMovies(data);
-        }else {
+        } else {
             showErrorMessage();
         }
     }
@@ -142,13 +138,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle output){
+    protected void onSaveInstanceState(Bundle output) {
         super.onSaveInstanceState(output);
         output.putString(MOVIE_TO_SEARCH, MainActivity.this.query);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle state){
+    protected void onRestoreInstanceState(Bundle state) {
         super.onRestoreInstanceState(state);
        /* if(state != null){
             if(state.containsKey(MOVIE_TO_SEARCH)){

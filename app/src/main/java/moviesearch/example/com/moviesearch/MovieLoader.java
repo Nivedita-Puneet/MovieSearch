@@ -2,18 +2,14 @@ package moviesearch.example.com.moviesearch;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import moviesearch.example.com.moviesearch.POJO.Movie;
-import moviesearch.example.com.moviesearch.Utilities.NetworkUtils;
+import moviesearch.example.com.moviesearch.data.Movie;
+import moviesearch.example.com.moviesearch.utilities.NetworkUtils;
 
 /**
  * Created by PUNEETU on 03-03-2017.

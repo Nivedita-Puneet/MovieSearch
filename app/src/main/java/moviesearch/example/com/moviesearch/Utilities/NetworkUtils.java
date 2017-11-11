@@ -1,4 +1,4 @@
-package moviesearch.example.com.moviesearch.Utilities;
+package moviesearch.example.com.moviesearch.utilities;
 
 import android.net.Uri;
 import android.text.TextUtils;
@@ -20,17 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import moviesearch.example.com.moviesearch.MovieNotFoundException;
-import moviesearch.example.com.moviesearch.POJO.Movie;
+import moviesearch.example.com.moviesearch.data.Movie;
 
 /**
- * Created by PUNEETU on 01-03-2017.
+ * Created by Nivedita Nilugal on 01-03-2017.
  */
 
 public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BASE_URL = "http://www.omdbapi.com/?";
+    private static final String BASE_URL = "https://www.omdbapi.com/?";
 
     /*The following are parameters used in order to build base URL using Android URL Builder class*/
 

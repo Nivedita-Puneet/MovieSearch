@@ -1,6 +1,4 @@
-package moviesearch.example.com.moviesearch.POJO;
-
-import java.util.List;
+package moviesearch.example.com.moviesearch.data;
 
 /**
  * Created by PUNEETU on 02-03-2017.

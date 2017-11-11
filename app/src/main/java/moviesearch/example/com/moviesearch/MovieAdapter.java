@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import moviesearch.example.com.moviesearch.POJO.Movie;
+import moviesearch.example.com.moviesearch.data.Movie;
 
 /**
  * Created by PUNEETU on 06-03-2017.
