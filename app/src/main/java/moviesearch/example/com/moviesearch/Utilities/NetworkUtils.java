@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,30 +31,28 @@ public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BASE_URL = "https://www.omdbapi.com/?";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/search/movie?";
 
     /*The following are parameters used in order to build base URL using Android URL Builder class*/
 
-    private static final String format = "json";
-    private static final String rating = "true";
-    private static final String type = "Movie";
+    private static int number = 1;
+    private static final String tmdb_key = "7b4412b478e1878545a11d9d1beeb3b6";
 
+    private static final String API_KEY = "api_key";
+    private static final String QUERY_PARAM = "query";
+    private static final String PAGE = "page";
 
-    private static final String QUERY_PARAM = "s";
-    private static final String QUERY_FORMAT = "r";
-    private static final String ROTTEN_TOMATO_RATING = "tomatoes";
-    private static final String ENTERTAINING_TYPE = "type";
-
+    public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w92/";
 
 
     /*The method returns you a BASE URL from which we can get the response*/
     public static URL buildURL(String movieToSearch) {
 
         Uri buildUri = Uri.parse(BASE_URL).buildUpon().
+                appendQueryParameter(API_KEY, tmdb_key).
                 appendQueryParameter(QUERY_PARAM, movieToSearch).
-                appendQueryParameter(ENTERTAINING_TYPE, type).
-                appendQueryParameter(QUERY_FORMAT, format).
-                appendQueryParameter(ROTTEN_TOMATO_RATING, rating).build();
+                appendQueryParameter(PAGE, String.valueOf(number))
+                .build();
         URL url = null;
         try {
             url = new URL(buildUri.toString());
@@ -90,13 +89,13 @@ public class NetworkUtils {
             } else {
                 Log.i(TAG, "Error response code" + ":" + httpURLConnection.getResponseCode());
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             Log.e(TAG, "Problem retriving the results of movie" + e.getLocalizedMessage());
-        }finally {
+        } finally {
             if (httpURLConnection != null) {
                 httpURLConnection.disconnect();
             }
-            if(inputStream != null) {
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
@@ -105,11 +104,11 @@ public class NetworkUtils {
 
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
-        if(inputStream != null){
+        if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line = bufferedReader.readLine();
-            while (line != null){
+            while (line != null) {
                 output.append(line);
                 line = bufferedReader.readLine();
             }
@@ -118,38 +117,37 @@ public class NetworkUtils {
         return output.toString();
     }
 
-    public static List<Movie> getMoviesFromJSON(String json) throws MovieNotFoundException{
+    public static List<Movie> getMoviesFromJSON(String json) throws MovieNotFoundException {
 
-        if(TextUtils.isEmpty(json)){
+        if (TextUtils.isEmpty(json)) {
             return null;
         }
 
         List<Movie> movies = new ArrayList<Movie>();
-        try{
+        try {
             JSONObject baseJSONResponse = new JSONObject(json);
-            boolean validateResults = baseJSONResponse.getBoolean("Response");
-            Log.i(TAG, ""+ validateResults);
-                if(!validateResults)
-                    throw new MovieNotFoundException(baseJSONResponse.getString("Error"));
-            JSONArray searchArray = baseJSONResponse.getJSONArray("Search");
-            for(int i=0; i<searchArray.length(); i++){
+            String validateResults = baseJSONResponse.getString("total_results");
+            Log.i(TAG, "" + validateResults);
+            if (validateResults.equals(String.valueOf(0)))
+                throw new MovieNotFoundException(baseJSONResponse.getString("Error"));
+            JSONArray searchArray = baseJSONResponse.getJSONArray("results");
+            for (int i = 0; i < searchArray.length(); i++) {
                 JSONObject extractMovieAttributes = searchArray.getJSONObject(i);
-                String title = extractMovieAttributes.getString("Title");
-                String year = extractMovieAttributes.getString("Year");
-                String imdbID = extractMovieAttributes.getString("imdbID");
-                String poster = extractMovieAttributes.getString("Poster");
-                Movie movie = new Movie(title,year,imdbID,poster);
+                String title = extractMovieAttributes.getString("title");
+                String year = extractMovieAttributes.getString("release_date");
+                String imdbID = extractMovieAttributes.getString("id");
+                String poster = extractMovieAttributes.getString("poster_path");
+                Movie movie = new Movie(title, year, imdbID, poster);
                 movies.add(movie);
             }
 
 
-        }catch (JSONException exception){
+        } catch (JSONException exception) {
 
             Log.e(TAG, exception.getLocalizedMessage());
         }
-            return movies;
+        return movies;
     }
-
 
 
 }

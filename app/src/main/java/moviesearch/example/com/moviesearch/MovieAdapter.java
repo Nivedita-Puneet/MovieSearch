@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import moviesearch.example.com.moviesearch.data.Movie;
+import moviesearch.example.com.moviesearch.utilities.NetworkUtils;
 
 /**
  * Created by PUNEETU on 06-03-2017.
@@ -70,7 +71,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         public void onBindViewHolder(MovieAdapter.MovieAdapterViewHolder holder, int position){
             holder.title.setText(movies.get(position).getTitle());
             holder.year.setText(movies.get(position).getYear());
-            Picasso.with(this.context).load(movies.get(position).getPoster()).into(holder.poster);
+            Picasso.with(this.context).load(NetworkUtils.IMAGE_BASE_URL+movies.get(position).getPoster()).into(holder.poster);
         }
 
 

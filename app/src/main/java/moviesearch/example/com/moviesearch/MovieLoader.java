@@ -45,10 +45,12 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
             return null;
         }
         URL url = NetworkUtils.buildURL(movieToSearch);
+        Log.d(MovieLoader.class.getSimpleName(), url.toString());
         String 
              serverResponse  = null;
         try{
              serverResponse = NetworkUtils.makeHttpRequest(url);
+             Log.d(MovieLoader.class.getSimpleName(), serverResponse);
              movies = NetworkUtils.getMoviesFromJSON(serverResponse);
 
             if(movies != null)

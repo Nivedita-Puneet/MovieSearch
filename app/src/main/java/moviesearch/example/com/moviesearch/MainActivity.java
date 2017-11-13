@@ -10,15 +10,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.net.URL;
 import java.util.List;
 
 import moviesearch.example.com.moviesearch.data.Movie;
+import moviesearch.example.com.moviesearch.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 MainActivity.this.query = savedInstanceState.getString(MOVIE_TO_SEARCH);
             }
         }
+
         initializeControls();
 
     }
