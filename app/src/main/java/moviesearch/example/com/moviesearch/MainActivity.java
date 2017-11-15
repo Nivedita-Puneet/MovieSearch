@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public boolean onQueryTextChange(String newText) {
 
+                showErrorMessage();
                 MainActivity.this.query = newText;
                 return true;
             }
