@@ -32,6 +32,7 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static final String BASE_URL = "https://api.themoviedb.org/3/search/movie?";
+    public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w92/";
 
     /*The following are parameters used in order to build base URL using Android URL Builder class*/
 
@@ -42,7 +43,7 @@ public class NetworkUtils {
     private static final String QUERY_PARAM = "query";
     private static final String PAGE = "page";
 
-    public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w92/";
+    public static final String MOVIE_DETAIL_URL = "https://api.themoviedb.org/3/movie/";
 
 
     /*The method returns you a BASE URL from which we can get the response*/
@@ -60,6 +61,22 @@ public class NetworkUtils {
             Log.e(TAG, exception.getLocalizedMessage());
         }
 
+        return url;
+    }
+
+    public static URL buildMovieDetailUrl(String imdbId) {
+
+        //https://api.themoviedb.org/3/movie/332835?api_key=7b4412b478e1878545a11d9d1beeb3b6&language=en-US
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("api.themoviedb.org").authority("3").authority(imdbId).appendQueryParameter(API_KEY, tmdb_key).build();
+        URL url = null;
+        try {
+            url = new URL(builder.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
         return url;
     }
     /*Write a method to stream and get the results from server in JSON format;
