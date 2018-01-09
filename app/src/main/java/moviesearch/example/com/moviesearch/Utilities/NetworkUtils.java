@@ -70,13 +70,16 @@ public class NetworkUtils {
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
-                .authority("api.themoviedb.org").authority("3").authority(imdbId).appendQueryParameter(API_KEY, tmdb_key).build();
+                .authority("api.themoviedb.org").appendPath("3")
+                .appendPath("movie").appendPath(imdbId).
+                 appendQueryParameter(API_KEY, tmdb_key).build();
         URL url = null;
         try {
             url = new URL(builder.toString());
         } catch (MalformedURLException e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
+        Log.i(TAG, url.toString());
         return url;
     }
     /*Write a method to stream and get the results from server in JSON format;

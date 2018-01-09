@@ -21,11 +21,15 @@ import java.net.URL;
 import java.util.List;
 
 import moviesearch.example.com.moviesearch.data.Movie;
+import moviesearch.example.com.moviesearch.utilities.DividerItemDecoration;
 import moviesearch.example.com.moviesearch.utilities.NetworkUtils;
+import moviesearch.example.com.moviesearch.utilities.VerticalSpaceItemDecoration;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int VERTICAL_ITEM_SPACE = 20;
+
     String query;
     private RecyclerView mRecyclerView;
     private ProgressBar mLoadingIndicator;
@@ -60,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+
+        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, R.drawable.divider));
         movieAdapter = new MovieAdapter(new MovieAdapter.MovieAdapterOnclickHandler() {
             @Override
             public void listItemClickListener(String imdbId) {
