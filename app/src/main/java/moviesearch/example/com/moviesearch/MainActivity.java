@@ -1,6 +1,9 @@
 package moviesearch.example.com.moviesearch;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int MOVIE_TASK_CODE = 101;
     private static final String MOVIE_TO_SEARCH = "movieToSearch";
     SearchView searchView;
+    View emptyViewLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_movie);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        emptyViewLayout = (View) findViewById(R.id.emptyViewLayout);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -75,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         }, MainActivity.this);
-        getSupportLoaderManager().initLoader(MOVIE_TASK_CODE, null, MainActivity.this);
+        getConnectivityStatus();
         mRecyclerView.setAdapter(movieAdapter);
     }
 
@@ -130,12 +135,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-        return new MovieLoader(MainActivity.this, MainActivity.this.query);
+        return new MovieLoader(MainActivity.this, MainActivity.this.query, MainActivity.this);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.GONE);
         if (data != null) {
             showMoviesData();
             movieAdapter.setMovies(data);
@@ -163,6 +168,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 query = state.getString(MOVIE_TO_SEARCH);
             }
         }*/
+    }
+
+    public void getConnectivityStatus() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            getSupportLoaderManager().initLoader(MOVIE_TASK_CODE, null, MainActivity.this);
+
+
+        } else {
+
+            mRecyclerView.setVisibility(View.INVISIBLE);
+            emptyViewLayout.setVisibility(View.VISIBLE);
+            mLoadingIndicator.setVisibility(View.GONE);
+        }
     }
 
 }

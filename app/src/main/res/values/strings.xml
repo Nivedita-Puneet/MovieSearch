@@ -3,4 +3,5 @@
     <string name="search">Search</string>
     <string name="search_hint">Movie To Search</string>
     <string name="error_message">Movie not found.</string>
+    <string name="no_internet_connection">Please Review your network settings.</string>
 </resources>

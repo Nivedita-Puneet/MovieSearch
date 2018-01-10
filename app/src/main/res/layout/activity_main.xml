@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="moviesearch.example.com.moviesearch.MainActivity">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_movie"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/tv_error_message_display"
@@ -20,11 +20,19 @@
         android:textSize="20sp"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/emptyViewLayout"
+        layout="@layout/empty_view"
+        android:visibility="gone"></include>
+
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
-        android:layout_height="42dp"
-        android:layout_width="42dp"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal"
+        android:indeterminateTint="@color/colorPrimaryDark"
+        android:indeterminateTintMode="src_in"/>
 
 </FrameLayout>
