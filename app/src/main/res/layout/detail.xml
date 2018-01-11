@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/movie_poster"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
             android:layout_margin="10dp"
             android:padding="10dp" />
     </LinearLayout>
@@ -32,32 +32,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/movie_title"
-        android:layout_toRightOf="@+id/poster_layout"
-        android:text="131 mins" />
+        android:layout_toRightOf="@+id/poster_layout" />
 
     <TextView
         android:id="@+id/year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/movie_title"
-        android:layout_toRightOf="@+id/duration"
-        android:text="1995" />
+        android:layout_toRightOf="@+id/duration" />
 
     <TextView
         android:id="@+id/actor_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/poster_layout"
-        android:layout_toRightOf="@+id/poster_layout"
-        android:text="Actors" />
+        android:layout_toRightOf="@+id/poster_layout" />
 
     <TextView
         android:id="@+id/actors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/actor_title"
-        android:layout_toRightOf="@+id/poster_layout"
-        android:text="Hello" />
+        android:layout_toRightOf="@+id/poster_layout" />
 
     <LinearLayout
         android:id="@+id/descLayout"

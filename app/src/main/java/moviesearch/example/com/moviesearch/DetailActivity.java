@@ -10,9 +10,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import moviesearch.example.com.moviesearch.data.MovieDetail;
+import moviesearch.example.com.moviesearch.utilities.NetworkUtils;
 
 /**
  * Created by PUNEETU on 07-03-2017.
@@ -23,6 +27,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     String movie_id = null;
     private static final String LOG = DetailActivity.class.getSimpleName();
     private static final int MOVIE_DETAIL_TASK_CODE = 103;
+    TextView title;
+    TextView plot;
+    ImageView poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +47,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private void initializeControls() {
         getSupportLoaderManager().initLoader(MOVIE_DETAIL_TASK_CODE, null, this);
+        title = (TextView) findViewById(R.id.movie_title);
+        poster = (ImageView) findViewById(R.id.movie_poster);
+        plot = (TextView) findViewById(R.id.plot);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -67,7 +77,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<MovieDetail> loader, MovieDetail data) {
 
-        Log.i(LOG, data.getTitle() + " " + data.getDescription() + " " + data.getYear());
+        Log.i(LOG, data.getTitle() + " " + data.getDescription() + " " + data.getYear() + " " + data.getPoster());
+        title.setText(data.getTitle());
+        plot.setText(data.getDescription());
+        Picasso.with(this).load(NetworkUtils.IMAGE_BASE_URL + data.getPoster()).into(poster);
+
     }
 
     @Override

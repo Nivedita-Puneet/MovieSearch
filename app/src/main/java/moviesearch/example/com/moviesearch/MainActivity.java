@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public boolean onQueryTextSubmit(String query) {
                 MainActivity.this.query = query;
                 movieAdapter.setMovies(null);
+                emptyViewLayout.setVisibility(View.GONE);
                 getSupportLoaderManager().restartLoader(MOVIE_TASK_CODE, null, MainActivity.this);
                 return true;
             }
