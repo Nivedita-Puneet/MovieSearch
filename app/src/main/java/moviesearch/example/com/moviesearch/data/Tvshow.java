@@ -8,8 +8,16 @@ public class Tvshow {
 
     private String poster;
     private String title;
-    private String genre;
+    private String releaseDate;
     private String plot;
+
+    public Tvshow(String title, String poster, String releaseDate, String plot) {
+
+        this.title = title;
+        this.poster = poster;
+        this.releaseDate = releaseDate;
+        this.plot = plot;
+    }
 
     public String getPoster() {
         return poster;
@@ -27,12 +35,12 @@ public class Tvshow {
         this.title = title;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getPlot() {

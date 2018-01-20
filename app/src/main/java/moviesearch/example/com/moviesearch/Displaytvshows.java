@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import moviesearch.example.com.moviesearch.data.Tvshow;
+import moviesearch.example.com.moviesearch.utilities.JSONUtil;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -74,7 +75,7 @@ public class Displaytvshows extends AppCompatActivity {
                 = Observable.fromCallable(new Callable<List<Tvshow>>() {
             @Override
             public List<Tvshow> call() throws Exception {
-                return null;
+                return JSONUtil.getPopularTvShows(searchQuery);
             }
         });
         showSubscription = tvShowObservable.
@@ -115,6 +116,9 @@ public class Displaytvshows extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (showSubscription != null && !showSubscription.isUnsubscribed()) {
+            showSubscription.unsubscribe();
+        }
     }
 
 
