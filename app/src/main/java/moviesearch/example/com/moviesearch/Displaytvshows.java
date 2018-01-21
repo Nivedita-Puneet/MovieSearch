@@ -3,11 +3,13 @@ package moviesearch.example.com.moviesearch;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import java.util.List;
@@ -32,6 +34,7 @@ public class Displaytvshows extends AppCompatActivity {
     private RecyclerView mtvshowsview;
     ProgressBar progressBar;
     private Subscription showSubscription;
+    TvshowsAdapter tvshowsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,13 +43,20 @@ public class Displaytvshows extends AppCompatActivity {
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
         setContentView(R.layout.display_tv_shows);
         initializeControls();
-        createObservable();
+        //createObservable();
     }
 
     private void initializeControls() {
 
         mtvshowsview = (RecyclerView) findViewById(R.id.recyclerview_tv_shows);
         progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator_tv_shows);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mtvshowsview.setLayoutManager(linearLayoutManager);
+        mtvshowsview.setHasFixedSize(true);
+
+        tvshowsAdapter = new TvshowsAdapter(Displaytvshows.this);
+        mtvshowsview.setAdapter(tvshowsAdapter);
 
 
     }
@@ -94,6 +104,7 @@ public class Displaytvshows extends AppCompatActivity {
                     @Override
                     public void onNext(List<Tvshow> tvshows) {
                         /*Populate recycler view and bind it to an adapter*/
+                        displayTvShows(tvshows);
                     }
                 });
     }
@@ -103,12 +114,16 @@ public class Displaytvshows extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                Displaytvshows.this.searchQuery = query;
+                tvshowsAdapter.setMovies(null);
+                createObservable();
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                Displaytvshows.this.searchQuery = newText;
+                return true;
             }
         });
     }
@@ -119,6 +134,12 @@ public class Displaytvshows extends AppCompatActivity {
         if (showSubscription != null && !showSubscription.isUnsubscribed()) {
             showSubscription.unsubscribe();
         }
+    }
+
+    private void displayTvShows(List<Tvshow> tvShows) {
+
+        tvshowsAdapter.setMovies(tvShows);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
 

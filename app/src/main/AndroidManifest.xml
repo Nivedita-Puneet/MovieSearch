@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".Displaytvshows"
             android:launchMode="singleTop"
             android:theme="@style/Theme.BaseTheme">
             <intent-filter>
@@ -23,13 +23,13 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity
-            android:name=".DetailActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"></meta-data>
-        </activity>
+        <!-- <activity
+             android:name=".DetailActivity"
+             android:parentActivityName=".MainActivity">
+             <meta-data
+                 android:name="android.support.PARENT_ACTIVITY"
+                 android:value=".MainActivity"></meta-data>
+         </activity>-->
     </application>
 
 </manifest>

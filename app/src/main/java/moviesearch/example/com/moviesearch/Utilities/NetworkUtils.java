@@ -46,6 +46,9 @@ public class NetworkUtils {
     public static final String MOVIE_DETAIL_URL = "https://api.themoviedb.org/3/movie/";
 
 
+    /*The following details will be used to Build Url for tv shows*/
+    private static final String TV_SHOW_BASE_URL = "https://api.themoviedb.org/3/search/tv?";
+
     /*The method returns you a BASE URL from which we can get the response*/
     public static URL buildURL(String movieToSearch) {
 
@@ -72,7 +75,7 @@ public class NetworkUtils {
         builder.scheme("https")
                 .authority("api.themoviedb.org").appendPath("3")
                 .appendPath("movie").appendPath(imdbId).
-                 appendQueryParameter(API_KEY, tmdb_key).build();
+                appendQueryParameter(API_KEY, tmdb_key).build();
         URL url = null;
         try {
             url = new URL(builder.toString());
@@ -80,6 +83,20 @@ public class NetworkUtils {
             Log.e(TAG, e.getLocalizedMessage());
         }
         Log.i(TAG, url.toString());
+        return url;
+    }
+
+    public static URL buildTvShowsUrl(String searchTvShow) {
+        Uri buildUri = Uri.parse(TV_SHOW_BASE_URL).buildUpon()
+                .appendQueryParameter(API_KEY, tmdb_key)
+                .appendQueryParameter(QUERY_PARAM, searchTvShow).build();
+        URL url = null;
+        try {
+            url = new URL(buildUri.toString());
+        } catch (MalformedURLException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+
         return url;
     }
     /*Write a method to stream and get the results from server in JSON format;
